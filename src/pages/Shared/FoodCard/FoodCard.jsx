@@ -1,11 +1,12 @@
 import React from "react";
 
 const FoodCard = ({ items }) => {
-  const { image, name, recipe } = items;
+  const { image, name, recipe, price } = items;
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure>
-        <img src={image} alt="Image not found" className="rounded" />
+        <img src={image} alt="Image not found" className="rounded relative h-52 w-full" />
+        <p className="absolute top-3 right-3 text-sm bg-slate-900 text-white py-1 px-2 rounded">${price}</p>
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title text-lg font-bold">{name}</h2>
