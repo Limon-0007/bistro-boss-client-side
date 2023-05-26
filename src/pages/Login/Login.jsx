@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import toast, { Toaster } from 'react-hot-toast';
 import {
@@ -6,11 +6,14 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../Providers/Providers";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState("")
+  const {signIn} = useContext(AuthContext)
+
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -20,7 +23,14 @@ const Login = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    signIn(email, password)
+    .then(result => {
+      const user = result.user
+      console.log(user);
+    })
+    .catch(error => {
+      setError(error.message)
+    })
   };
 
   const handleValidateCaptcha = () => {
