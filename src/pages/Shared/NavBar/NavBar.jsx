@@ -4,9 +4,11 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Providers/Providers";
 import Swal from "sweetalert2";
 import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../Hooks/UseCart";
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
   const handleLogOut = () => {
     logOut()
       .then((result) => {
@@ -31,7 +33,7 @@ const NavBar = () => {
         <Link to="/">
           <button className="btn gap-2">
             <FaShoppingCart className="text-xl"></FaShoppingCart>
-            <div className="badge badge-secondary">+0</div>
+            <div className="badge badge-secondary">+{cart.length || 0}</div>
           </button>
         </Link>
       </li>
@@ -90,7 +92,7 @@ const NavBar = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="mt-3 p-2 shadow text-slate-900 menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+                className="-mt-1 p-2 shadow text-slate-900 menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
                   <a className="justify-between">
