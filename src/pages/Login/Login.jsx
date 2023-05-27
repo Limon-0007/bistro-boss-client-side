@@ -7,12 +7,16 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../Providers/Providers";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState("")
   const {signIn} = useContext(AuthContext)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/"
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -27,14 +31,16 @@ const Login = () => {
     .then(result => {
       const user = result.user
       console.log(user);
+      Swal.fire('Login Success')
+      navigate(from, {replace: true})
     })
     .catch(error => {
       setError(error.message)
     })
   };
 
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
+  const handleValidateCaptcha = (event) => {
+    const user_captcha_value = event.target.value;
     if (validateCaptcha(user_captcha_value)) {
       setDisabled(false);
       setError("")
@@ -60,7 +66,7 @@ const Login = () => {
               et a id nisi.
             </p>
           </div>
-          <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card md:w-1/2 w-full max-w-sm shadow-2xl bg-base-100 font-semibold">
             <form onSubmit={handleLogin} className="card-body">
               <div className="form-control">
                 <label className="label">
@@ -95,22 +101,16 @@ const Login = () => {
                   <LoadCanvasTemplate />
                 </label>
                 <input
+                onBlur={handleValidateCaptcha}
                   type="text"
                   name="captcha"
-                  ref={captchaRef}
                   placeholder="type the text above"
                   className="input input-bordered"
                 />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="btn btn-outline btn-xs mt-2"
-                >
-                  validate
-                </button>
                 <Toaster />
                 <p className="font-semibold text-red-600 text-sm mt-1">{error}</p>
               </div>
-              <div className="form-control mt-6">
+              <div className="form-control mt-4">
                 <input
                   className="btn btn-primary"
                   type="submit"
@@ -119,6 +119,7 @@ const Login = () => {
                 />
               </div>
             </form>
+            <p className="text-center font-semibold text-orange-500 mb-6"><small>New here? <Link className="hover:underline" to="/signUp">Create a new account</Link></small></p>
           </div>
         </div>
       </div>
