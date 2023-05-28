@@ -4,13 +4,14 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/Providers";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const SignUp = () => {
   <Helmet>
     <title>Bistro Boss || Sign Up</title>
   </Helmet>;
   const { createUser, updateUserProfile } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,18 +21,30 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     createUser(data.email, data.password)
-      .then((result) => {
-        console.log(result);
-        reset();
+      .then(() => {
         updateUserProfile(data.name, data.photoURL)
           .then(() => {
-            Swal.fire({
-                icon: 'success',
-                title: 'User created successfully',
-                showConfirmButton: false,
-                timer: 1200
-              })
-              navigate("/")
+            const saveUser = { name: data.name, email: data.email };
+            fetch("http://localhost:5000/users", {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(saveUser),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.insertedId) {
+                  Swal.fire({
+                    icon: "success",
+                    title: "User created successfully",
+                    showConfirmButton: false,
+                    timer: 1200,
+                  });
+                  navigate("/");
+                  reset();
+                }
+              });
           })
           .catch((error) => {
             console.log(error.message);
@@ -158,6 +171,7 @@ const SignUp = () => {
               </Link>
             </small>
           </p>
+          <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

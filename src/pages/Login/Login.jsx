@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -9,14 +9,15 @@ import {
 import { AuthContext } from "../../Providers/Providers";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState("")
-  const {signIn} = useContext(AuthContext)
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from?.pathname || "/"
+  const [error, setError] = useState("");
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -28,26 +29,25 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     signIn(email, password)
-    .then(result => {
-      const user = result.user
-      console.log(user);
-      Swal.fire('Login Success')
-      navigate(from, {replace: true})
-    })
-    .catch(error => {
-      setError(error.message)
-    })
+      .then((result) => {
+        const user = result.user;
+        Swal.fire("Login Success");
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   const handleValidateCaptcha = (event) => {
     const user_captcha_value = event.target.value;
     if (validateCaptcha(user_captcha_value)) {
       setDisabled(false);
-      setError("")
-      toast.success('Captcha validate Successfully!')
+      setError("");
+      toast.success("Captcha validate Successfully!");
     } else {
       setDisabled(true);
-      setError("Invalid captcha")
+      setError("Invalid captcha");
     }
   };
 
@@ -101,14 +101,16 @@ const Login = () => {
                   <LoadCanvasTemplate />
                 </label>
                 <input
-                onBlur={handleValidateCaptcha}
+                  onBlur={handleValidateCaptcha}
                   type="text"
                   name="captcha"
                   placeholder="type the text above"
                   className="input input-bordered"
                 />
                 <Toaster />
-                <p className="font-semibold text-red-600 text-sm mt-1">{error}</p>
+                <p className="font-semibold text-red-600 text-sm mt-1">
+                  {error}
+                </p>
               </div>
               <div className="form-control mt-4">
                 <input
@@ -119,7 +121,15 @@ const Login = () => {
                 />
               </div>
             </form>
-            <p className="text-center font-semibold text-orange-500 mb-6"><small>New here? <Link className="hover:underline" to="/signUp">Create a new account</Link></small></p>
+            <p className="text-center font-semibold text-orange-500 mb-6">
+              <small>
+                New here?{" "}
+                <Link className="hover:underline" to="/signUp">
+                  Create a new account
+                </Link>
+              </small>
+            </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>

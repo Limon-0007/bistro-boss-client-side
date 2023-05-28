@@ -10,13 +10,31 @@ const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [cart] = useCart();
   const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        Swal.fire("Log out Success");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Logout successfully!",
+              showConfirmButton: false,
+              timer: 1200,
+            });
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      }
+    });
   };
   const navOptions = (
     <>

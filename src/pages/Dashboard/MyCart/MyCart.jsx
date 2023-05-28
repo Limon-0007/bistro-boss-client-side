@@ -25,13 +25,13 @@ const MyCart = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Success!",
-                    text: "Deleted from cart successfully!",
-                    showConfirmButton: false,
-                    timer: 1200,
-                  });
+              Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Deleted from cart successfully!",
+                showConfirmButton: false,
+                timer: 1200,
+              });
               refetch();
             }
           });
