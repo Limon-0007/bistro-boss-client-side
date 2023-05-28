@@ -25,7 +25,13 @@ const MyCart = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "Deleted from cart successfully!",
+                    showConfirmButton: false,
+                    timer: 1200,
+                  });
               refetch();
             }
           });

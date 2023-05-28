@@ -11,7 +11,7 @@ const NavBar = () => {
   const [cart] = useCart();
   const handleLogOut = () => {
     logOut()
-      .then((result) => {
+      .then(() => {
         Swal.fire("Log out Success");
       })
       .catch((error) => {
