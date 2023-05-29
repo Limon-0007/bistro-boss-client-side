@@ -43,12 +43,14 @@ const MyCart = () => {
       <Helmet>
         <title>Bistro Boss || My Cart</title>
       </Helmet>
-      <div className="font-semibold flex justify-between uppercase mb-10 items-center">
+      <div className="font-semibold grid sm:grid-cols-3 uppercase mb-10 items-center">
         <h2>Total Items: {cart.length}</h2>
         <h2>Total Price: ${total}</h2>
+        <div className="flex sm:justify-end">
         <button className="bg-[#d1a054] btn-sm rounded text-white font-semibold hover:bg-slate-800 duration-200">
           Pay Now
         </button>
+        </div>
       </div>
       {/* table */}
 
