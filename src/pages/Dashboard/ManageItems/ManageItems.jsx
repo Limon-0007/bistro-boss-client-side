@@ -1,13 +1,14 @@
 import React from "react";
+import SectionTitle from "./../../../components/SectionTitle/SectionTitle";
 import { Helmet } from "react-helmet-async";
-import useCart from "../../../Hooks/UseCart";
-import { FaTrashAlt } from "react-icons/fa";
+import useMenu from "../../../Hooks/useMenu";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
-const MyCart = () => {
-  const [cart, refetch] = useCart();
-  const total = cart?.reduce((sum, item) => item.price + sum, 0);
-
+const ManageItems = () => {
+  const [menu, refetch] = useMenu();
+  const [axiosSecure] = useAxiosSecure();
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -19,16 +20,16 @@ const MyCart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://bistro-boss-server-liard.vercel.app/carts/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
+        axiosSecure
+          .delete(`/menu/${id}`, {
+            method: "DELETE",
+          })
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
               Swal.fire({
                 icon: "success",
                 title: "Success!",
-                text: "Deleted from cart successfully!",
+                text: "Deleted item successfully!",
                 showConfirmButton: false,
                 timer: 1200,
               });
@@ -41,19 +42,13 @@ const MyCart = () => {
   return (
     <div>
       <Helmet>
-        <title>Bistro Boss || My Cart</title>
+        <title>Bistro Boss || Manage Items</title>
       </Helmet>
-      <div className="font-semibold grid sm:grid-cols-3 uppercase mb-10 items-center">
-        <h2>Total Items: {cart.length}</h2>
-        <h2>Total Price: ${total}</h2>
-        <div className="flex sm:justify-end">
-          <button className="bg-[#d1a054] btn-sm rounded text-white font-semibold hover:bg-slate-800 duration-200">
-            Pay Now
-          </button>
-        </div>
-      </div>
+      <SectionTitle
+        heading="Manage All Items"
+        subHeading="Hurry up!"
+      ></SectionTitle>
       {/* table */}
-
       <div className="overflow-x-auto w-full">
         <table className="table w-full">
           {/* head */}
@@ -63,11 +58,12 @@ const MyCart = () => {
               <th>Food</th>
               <th>Item Name</th>
               <th>Price</th>
-              <th>Action</th>
+              <th>Update</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody className="font-semibold text-sm">
-            {cart.map((row, index) => (
+            {menu.map((row, index) => (
               <tr key={row._id}>
                 <th>{index + 1}</th>
                 <td>
@@ -80,7 +76,15 @@ const MyCart = () => {
                   </div>
                 </td>
                 <td>{row.name}</td>
-                <td>${row.price}</td>
+                <td className="text-right">${row.price}</td>
+                <th>
+                  <button
+                    // onClick={() => handleEdit(row._id)}
+                    className="btn btn-ghost btn-md bg-yellow-600 text-white rounded"
+                  >
+                    <FaEdit className="text-lg"></FaEdit>
+                  </button>
+                </th>
                 <th>
                   <button
                     onClick={() => handleDelete(row._id)}
@@ -94,9 +98,8 @@ const MyCart = () => {
           </tbody>
         </table>
       </div>
-      
     </div>
   );
 };
 
-export default MyCart;
+export default ManageItems;

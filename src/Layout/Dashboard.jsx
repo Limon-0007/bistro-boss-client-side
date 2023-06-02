@@ -4,6 +4,7 @@ import {
   FaBook,
   FaCalendarAlt,
   FaHome,
+  FaShoppingBag,
   FaShoppingCart,
   FaUsers,
   FaUtensils,
@@ -11,11 +12,13 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../Hooks/UseCart";
+import useAdmin from "../Hooks/UseAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart();
   // TODO: lod data from the server to to have dynamic isAdmin based on data
-  const isAdmin = true;
+  // const isAdmin = true;
+  const [isAdmin] = useAdmin();
 
   return (
     <div className="drawer drawer-mobile">
@@ -43,14 +46,14 @@ const Dashboard = () => {
               </li>
 
               <li>
-                <NavLink to="/dashboard/reservation">
+                <NavLink to="/dashboard/addItem">
                   <FaUtensils></FaUtensils>
-                  Add Items
+                  Add an Item
                 </NavLink>
               </li>
 
               <li>
-                <NavLink to="/dashboard/items">
+                <NavLink to="/dashboard/manageItems">
                   <FaWallet></FaWallet>
                   Manage Items
                 </NavLink>
@@ -63,7 +66,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/allusers">
+                <NavLink to="/dashboard/allUsers">
                   <FaUsers></FaUsers>
                   All Users
                 </NavLink>
@@ -93,7 +96,7 @@ const Dashboard = () => {
               </li>
 
               <li>
-                <NavLink to="/dashboard/mycart">
+                <NavLink to="/dashboard/myCart">
                   <FaShoppingCart></FaShoppingCart>
                   My Cart
                   <span className="badge badge-secondary">
@@ -117,7 +120,9 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/order/salad">Order</NavLink>
+            <NavLink to="/order/salad">
+              <FaShoppingBag></FaShoppingBag>
+              Order</NavLink>
           </li>
         </ul>
       </div>

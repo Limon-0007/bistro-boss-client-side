@@ -6,11 +6,10 @@ import useCart from "../../../Hooks/UseCart";
 
 const FoodCard = ({ items }) => {
   const { user } = useContext(AuthContext);
-  const [, refetch] = useCart()
+  const [, refetch] = useCart();
   const location = useLocation();
   const navigate = useNavigate();
   const { image, name, recipe, price, _id } = items;
-
 
   const handleAddToCart = (item) => {
     if (user && user?.email) {
@@ -22,7 +21,7 @@ const FoodCard = ({ items }) => {
         price,
         email: user.email,
       };
-      fetch("http://localhost:5000/carts", {
+      fetch("https://bistro-boss-server-liard.vercel.app/carts", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -32,7 +31,7 @@ const FoodCard = ({ items }) => {
         .then((res) => res.json())
         .then((data) => {
           if (data.insertedId) {
-            refetch()
+            refetch();
             Swal.fire({
               icon: "success",
               title: "Added to cart successfully!",
