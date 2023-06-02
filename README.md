@@ -2,7 +2,7 @@
 Live site link: https://bistro-boss-f42c0.web.app/
 
 Features: 
-*A user can add product to cart, remove from cart, order any product by using local and international payment method.
+*An user can add product to cart, remove from cart, order any product by using local and international payment method.
 *Admin can add products, remove/delete any product, edit products, manage all users, make an admin to an user and so more.
 
 Technologies:
