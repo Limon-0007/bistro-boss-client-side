@@ -1,13 +1,11 @@
 # bistro-boss-client-side
 Live site link: https://bistro-boss-f42c0.web.app/
 
-* Features: 
-* -------------------
+*** Features: 
 * An user can add product to cart, remove from cart, order any product by using local and international payment method.
 * Admin can add products, remove/delete any product, edit products, manage all users, make an admin to an user and so more.
 
-* Technologies:
-* ------------------------
+*** Technologies:
 * Threr are some latest technologies in this website. like,
 * React
 * MongoDB
@@ -24,6 +22,6 @@ Live site link: https://bistro-boss-f42c0.web.app/
 * React Tostify
 * React Helmet
 * React Hook Form
-* eact Parallax, icons, Responsive carousel
+* React Parallax, icons, Responsive carousel
 -----------------------------------------
 I'm Still working on this projet to update and implement more exciting features.
